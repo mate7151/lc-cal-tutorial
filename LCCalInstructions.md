@@ -36,7 +36,7 @@ If this process failed, check to make sure the launch file says image_raw instea
 The LiDAR-camera calibration process will require two to three terminals open -- one to play the bagfile and the other to calibrate the equipment. The third terminal is optional, but can prove helpful, as it is used to run image_view to see what point the bagfile is at, so when you pause it for calibration, you know the point you paused at is condusive to the calibration process.    
 The LiDAR-Camera calibration process is a manual process where the user pauses the bagfile at set points, where they then click on the four corners of the board, clockwise, starting from the top-left corner, in both the camera and the LiDAR data. When on the LiDAR data selection screen, make sure to select the pan tool at the top when moving around the data, otherwise, you might click on a data point by accident. A before and after of selecting the points can be found below. 
 ![Before selecting point](https://github.com/mate7151/lc-cal-tutorial/blob/master/lc-pics/BeforePickingCorners.png?raw=true)
-![After selecting point](https://github.com/mate7151/lc-cal-tutorial/blob/master/lc-pics/AfterPickingCorners.png?raw=true)
+![After selecting point](https://github.com/mate7151/lc-cal-tutorial/blob/master/lc-pics/AfterPickingCorners.png?raw=true)  
 To operate the calibration program, the two main terminals will both need to be in the workspace directory and have already had `source devel/setup.bash` run on them. You'll then want to run the following commands, with the first command being run on the first terminal, the second on the second, and, if you are using a third terminal to view the bagfile data, the third on the third.
 ```
 roslaunch lidar_camera_calibration play_rosbag.launch bagfile:=[YOUR-BAGFILE-NAME]
@@ -44,9 +44,10 @@ rosrun lidar_camera_calibration calibrate_camera_lidar.py --calibrate
 rosrun image_view image_view image:=[CAMERA-IMAGE]
 ```
 Your screen should look something like this.
-![Everything running](https://github.com/mate7151/lc-cal-tutorial/blob/master/lc-pics/BeforeActivatingCalibration.png?raw=true)
+![Everything running](https://github.com/mate7151/lc-cal-tutorial/blob/master/lc-pics/BeforeActivatingCalibration.png?raw=true)  
 In my case, the bagfile name was calinput.bag and the camera image was /gmsl_cameras/port_0/cam_0/image_raw. Once all this is running, select the second terminal. The second terminal should look like this.
-![Calibration terminal](https://github.com/mate7151/lc-cal-tutorial/blob/master/lc-pics/CalibrationTerminal.png?raw=true)
+![Calibration terminal](https://github.com/mate7151/lc-cal-tutorial/blob/master/lc-pics/CalibrationTerminal.png?raw=true)  
 When the recording has the checkerboard centered and a decent distance away from the camera and LiDAR, hit enter to begin the calibration process. Remember, select the top-left corner of the board and then every other corner, going clockwise, making sure to end by clicking the corner you started on. Once this is done, close the two data selection windows, WAIT FOR THE BAGFILE TO FINISH PLAYING, and repeat the process once the bagfile has looped. Eventually, once you've either collected an adequate amount of calibration data or the calibration process has crashed, the process should be complete.    
 If you have trouble with the calibration program crashing on the first calibration, delete the two .npy files at `(workspace)/src/lidar_camera_calibration/calibration_data/lidar_camera_calibration/` and try again.
 ## Display Results
+To display the calibration results, navigate to the workspace directory, run `source devel/setup.bash`, and then run `roslaunch lidar_camera_calibration display_camera_lidar_calibration.launch`. This will bring up a window showing the LiDAR data overlaid onto the camera data. If the points do not line up well, the calibration process went poorly, and should be repeated for a better calibration.
